@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router({mergeParams: true});
-const {getAllMessages, createMessage, getMessage, deleteMessage} = require("../controllers/messages");
+const {createMessage, getMessage, deleteMessage} = require("../controllers/messages");
 const {loginRequired, ensureCorrectUser} = require("../middleware/auth");
 
 router.route("/")

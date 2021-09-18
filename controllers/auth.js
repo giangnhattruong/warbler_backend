@@ -8,7 +8,8 @@ module.exports.signin = async (req, res, next) => {
     // if it all matches
         ///log them in
     try {
-        const {email, password} = req.body;
+        let {email, password} = req.body;
+        email = email.toLowerCase();
         const user = await User.findOne({email});
         if (!user) {
             return next(new ExpressError("Incorrect username or password! Please try again.", "400"))
@@ -35,9 +36,12 @@ module.exports.signup = async (req, res, next) => {
         // create a user
         // create a token (singin a token)
         // process.env.SECRET_KEY
-        const user = new User(req.body);
+        let {email, username, password, profileImageUrl} = req.body;
+        email = email.toLowerCase();
+        username = username.toLowerCase();
+        const user = new User({email, username, password, profileImageUrl});
         await user.save();
-        const {id, username, profileImageUrl} = user;
+        const {id} = user;
         const token = await user.createToken();
         return res.status(200).json({
             id,
